@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Chart } from 'angular-highcharts';
 import { Http } from '@angular/http';
+import * as _ from "lodash";
 
 @Injectable()
 export class StocksService {
@@ -15,6 +16,21 @@ export class StocksService {
   getChartValues(symbol, range) {
     return this.http.get(`//api.iextrading.com/1.0/stock/${symbol}/chart/${range}`).
       map(data => data.json());
+  }
+
+  getCompanyNews(symbol) {
+    return this.http.get(`//api.iextrading.com/1.0/stock/${symbol}/news`).
+      map(data => data.json());
+  }
+
+  getCompanyInfo(symbol) {
+    return this.http.get(`//api.iextrading.com/1.0/stock/${symbol}/company`).
+      map(data => {
+        data = data.json();
+        data = _.mapValues(data, value => (value === "null")? null : value);
+        console.log(data);
+        return data;
+      });
   }
 
   getChartInitialDate(date: string) {
@@ -34,7 +50,7 @@ export class StocksService {
         display: "Six months",
         value: "6m"
       }, {
-        display: "Three month",
+        display: "Three months",
         value: "3m"
       }, {
         display: "One month",

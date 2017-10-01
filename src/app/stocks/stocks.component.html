@@ -1,27 +1,77 @@
 <div class="row">
-  <div class="col-sm-12 mt-3">
+  <div class="col-md-9 mt-3">
     <form [formGroup]="stockForm">
       <div class="row">
-        <nav class="col-12">
-          <ul class="nav nav-tabs justify-content-end">
-            <li class="nav-item dropdown mr-auto">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{stockForm.get('symbolDropdown').value}}</a>
-              <div class="dropdown-menu">
-                <a class="dropdown-item" *ngFor="let symbol of symbolList" (click)="updateSymbol(symbol)">{{symbol.symbol}}</a>
-              </div>
-            </li>
-            <li class="nav-item" *ngFor="let range of rangeOptions">
-              <a class="nav-link" (click)="updateRange(range)" [class.active]="isRangeActive(range)">{{range.display}}</a>
-            </li>
-          </ul>
+        <nav class="col-12 d-flex justify-content-end">
+          <div class="btn-group">
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+              aria-expanded="false">
+                  {{stockForm.get('symbolDropdown').value}}
+              </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" *ngFor="let symbol of symbolList" (click)="updateSymbol(symbol)">{{symbol.symbol}}</a>
+            </div>
+          </div>
+
+            <button class="btn btn-secondary" 
+                    *ngFor="let range of rangeOptions" 
+                    (click)="updateRange(range)" 
+                    [class.active]="isRangeActive(range)">{{range.display}}
+            </button>
+
+          </div>
         </nav>
       </div>
     </form>
-    <div class="card bg-light border-0">
-      <div class="card-body">
-        <div [chart]="stocksChart"></div>
+    <div class="chart-wrapper card bg-light border-0">
+      <div class="card-body d-flex">
+        <div [chart]="stocksChart" *ngIf="stocksChart" class="chart"></div>
+        <div *ngIf="!stocksChart" class="no-content d-flex align-items-center text-center">
+          <div class="info d-flex flex-column">
+            <h2><i class="fa fa-line-chart"></i></h2>
+            <h2>
+              <p>No company selected</p>
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="sidebar col-md-3 p-0">
+    <div class="company-info list-group" *ngIf="companyInfo">
+      <div class="list-group-item bg-secondary text-white rounded-0 flex-column align-items-start">
+        <div>
+          <h5 class="mb-2 text-center">
+            <a [href]="companyInfo.website" target="__blank">
+                {{companyInfo.companyName}}
+                <small class="ml-1"><i class="fa fa-external-link"></i></small>
+              </a>
+          </h5>
+        </div>
+        <ul class="list-unstyled mb-0">
+          <li class="h6 mb-1">Exchange:<small class="align-self-center">{{companyInfo.exchange || 'N/A'}}</small></li>
+          <li class="h6 mb-1">CEO:<small class="mb-1">{{companyInfo.CEO || 'N/A'}}</small></li>
+          <li class="h6 mb-1">Sector:<small class="mb-1">{{companyInfo.sector || 'N/A'}}</small></li>
+        </ul>
       </div>
     </div>
 
-  </div>
+    <div class="company-news list-group">
+      <div class="list-group-item bg-info text-dark rounded-0 flex-column align-items-start" *ngFor="let news of companyNews">
+        <h6 class="mb-2 text-center">
+          <a [href]="news.url" target="__blank" class="text-dark">
+            {{news.headline}}
+            <small class="ml-1"><i class="fa fa-external-link"></i></small>
+          </a>
+        </h6>
+        <small class="mb-1">{{news.summary}}</small>
+        <footer class="blockquote-footer d-flex justify-content-end">
+          <cite title="Source Title">{{news.source}}</cite>
+        </footer>
+      </div>
+    </div>
+  </section>
+
 </div>

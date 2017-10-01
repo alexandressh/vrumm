@@ -1,0 +1,39 @@
+.chart-wrapper {
+    .card-body > div {
+        width: 100%;
+    }
+
+    .no-content {
+        height: 300px;
+
+        .info {
+            width: 100%;
+        }
+    }
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    max-height: calc(100vh - 60px);
+
+    .company-info ul li{
+        display: flex;
+        margin: 0;
+        padding: 0;
+        justify-content: space-between;
+    }
+
+    .company-news {
+        overflow-y: auto;
+        flex: 1;
+    }
+
+    .list-group {
+        .list-group-item {
+            border-radius: 0;
+            border-width: 0 0 2px 0;
+        }
+    }
+}

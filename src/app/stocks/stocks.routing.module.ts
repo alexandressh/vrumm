@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const stocksRoutes: Routes = [
-    {path: 'stocks', component: StocksComponent}
+    {path: 'stocks', component: StocksComponent},
+    {path: 'stock/:id', component: StocksComponent}
 ];
 
 @NgModule({

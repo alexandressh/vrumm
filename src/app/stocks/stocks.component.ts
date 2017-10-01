@@ -13,6 +13,8 @@ export class StocksComponent implements OnInit {
   symbolList: any;
   rangeOptions: any;
   stockForm : FormGroup;
+  companyNews : Array<any>;
+  companyInfo: any;
 
   constructor(private fb: FormBuilder,
               private stocksService: StocksService) {
@@ -48,19 +50,35 @@ export class StocksComponent implements OnInit {
   }
 
   updateSymbol(symbol) {
-      this.stockForm.patchValue({
-          symbolDropdown: symbol.symbol
-      });
+    this.getCompanyNews(symbol.symbol);
+    this.getCompanyInformation(symbol.symbol);
+    this.stockForm.patchValue({
+        symbolDropdown: symbol.symbol
+    });
   }
 
   updateRange(range) {
-      this.stockForm.patchValue({
-          range: range.value
-      });
+    this.stockForm.patchValue({
+        range: range.value
+    });
   }
 
   isRangeActive(range) {
       return this.stockForm.get('range').value === range.value;
+  }
+
+  getCompanyNews(symbol) {
+    this.stocksService.getCompanyNews(symbol)
+    .subscribe(data => {
+          this.companyNews = data;
+    });
+  }
+
+  getCompanyInformation(symbol) {
+    this.stocksService.getCompanyInfo(symbol)
+    .subscribe(data => {
+          this.companyInfo = data;
+    });
   }
 
   getChartValues() {
