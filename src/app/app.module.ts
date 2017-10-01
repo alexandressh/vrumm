@@ -1,8 +1,9 @@
+import { StocksModule } from './stocks/stocks.module';
 import { AvatarsService } from './shared/avatars/avatars.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ChartModule } from 'angular-highcharts';
 
@@ -31,9 +32,11 @@ import { MessagesComponent } from './messages/messages.component';
     BrowserModule,
     HttpModule,
     FormsModule,
+    ReactiveFormsModule,
     SurveysModule,
     AppRoutingModule,
-    ChartModule
+    ChartModule,
+    StocksModule
   ],
   providers: [
     AuthService,
