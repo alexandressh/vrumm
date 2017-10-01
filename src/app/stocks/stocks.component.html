@@ -1,30 +1,33 @@
 <div class="row">
   <div class="col-md-9 mt-3">
-    <form [formGroup]="stockForm">
-      <div class="row">
-        <nav class="col-12 d-flex justify-content-end">
-          <div class="btn-group">
-          <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-              aria-expanded="false">
-                  {{stockForm.get('symbolDropdown').value}}
-              </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" *ngFor="let symbol of symbolList" (click)="updateSymbol(symbol)">{{symbol.symbol}}</a>
-            </div>
+    <div class="chart-wrapper card border-0">
+      <div class="card-header">
+        <form [formGroup]="stockForm">
+          <div class="row">
+            <nav class="col-12 d-flex justify-content-end">
+              <div class="btn-group">
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false">
+                      {{stockForm.get('symbolDropdown').value}}
+                  </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" *ngFor="let symbol of symbolList" (click)="updateSymbol(symbol)">{{symbol.symbol}}</a>
+                </div>
+              </div>
+    
+                <button class="btn btn-secondary" 
+                        *ngFor="let range of rangeOptions" 
+                        (click)="updateRange(range)" 
+                        [class.active]="isRangeActive(range)">{{range.display}}
+                </button>
+    
+              </div>
+            </nav>
           </div>
-
-            <button class="btn btn-secondary" 
-                    *ngFor="let range of rangeOptions" 
-                    (click)="updateRange(range)" 
-                    [class.active]="isRangeActive(range)">{{range.display}}
-            </button>
-
-          </div>
-        </nav>
+        </form>
       </div>
-    </form>
-    <div class="chart-wrapper card bg-light border-0">
+
       <div class="card-body d-flex">
         <div [chart]="stocksChart" *ngIf="stocksChart" class="chart"></div>
         <div *ngIf="!stocksChart" class="no-content d-flex align-items-center text-center">
@@ -68,7 +71,7 @@
         </h6>
         <small class="mb-1">{{news.summary}}</small>
         <footer class="blockquote-footer d-flex justify-content-end">
-          <cite title="Source Title">{{news.source}}</cite>
+          <cite title="Source">{{news.source}} ({{news.datetime | date}})</cite>
         </footer>
       </div>
     </div>
